@@ -27,6 +27,7 @@ import sys
 import time
 import os
 import filecmp
+from messageSystem import messageSys
 
 #Constants
 LARGE_FONT = ("roboto", 16)
@@ -107,25 +108,13 @@ class Main_Grid(GridLayout):
         #self.target_time = 60
 
         self.add_widget(Topbanner_Display(clock))
-        #current_date = datetime.today().date()
-        #self.add_widget(Label(text="Current Date\n"+current_date.strftime("%A")+"\n"
-        #                           +current_date.strftime("%y:%m:%d"),size_hint_y=None,height=100))
-        #self.add_widget(Label(text="",size_hint_y=None,height=100))
-        #self.add_widget(clock)
-
-        #self.add_widget(Label(text="", size_hint_x=None,width=0))
         self.add_widget(Event_Display(countdown, img))
-        #self.add_widget(countdown)
-        #self.add_widget(Label(text="", size_hint_x=None,width=0))
-
-        #self.add_widget(Label(text="", size_hint_x=None, width=0))
         self.add_widget(msg)
-        #self.add_widget(Label(text="", size_hint_x=None, width=0))
 
 class Topbanner_Display(GridLayout):
     def __init__(self, clock, **kwargs):
         super(Topbanner_Display, self).__init__(**kwargs)
-        self.cols = 3
+        self.cols = 4
         self.rows = 1
         float_colour1 = 84/255.0
         float_colour2 = 84/255.0
@@ -139,6 +128,7 @@ class Topbanner_Display(GridLayout):
         self.add_widget(Label(text="Current Date\n"+current_date.strftime("%A")+" "
                                    +current_date.strftime("%y:%m:%d"), font_size="24"))
         self.add_widget(clock)
+        self.add_widget(MessageButton)
 
 class Event_Display(GridLayout, PhoneGui):
     def __init__(self,countdown,img, **kwargs):
@@ -266,6 +256,24 @@ class RightButton(Button):
         #self.width = 75
         self.background_normal = ''
         self.background_color = [84/255.0,84/255.0,84/255.0,1]
+
+
+#Builds the message display
+class MessageButton(Button):
+    def __init__(self, **kwargs):
+        super(MessageButton,self).__init__(**kwargs)
+        self.text = "msg"
+        self.font_size = 24
+        self.size_hint_y = None
+        self.height = 50
+        self.width = 50
+        self.background_normal=''
+        self.background_color = [84/255.0,84/255.0,84/255.0,1]
+        self.on_press = self.open_msg_window
+
+    def open_msg_window(self):
+        msgWindow = messageSys()
+        msgWindow.build()
 
 #if __name__ == "__main__":
     #Config.set('graphics','width','720')
